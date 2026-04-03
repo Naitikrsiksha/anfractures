@@ -1,0 +1,42 @@
+{
+  "name": "AN Fractures & Physiotherapist",
+  "short_name": "AN Clinic",
+  "description": "Book appointments, order orthopaedic aids, and get AI health guidance.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#080f1e",
+  "theme_color": "#3b8beb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical", "lifestyle"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Book Appointment",
+      "short_name": "Appointment",
+      "description": "Book a clinic appointment",
+      "url": "/index.html#appointment",
+      "icons": [{ "src": "assets/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Call Doctor",
+      "short_name": "Call",
+      "description": "Call the doctor directly",
+      "url": "/index.html#call"
+    }
+  ]
+}
+
