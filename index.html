@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark light" />
+  <title>AN Clinic AI Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    window.APP_CONFIG = {
+      SHEETS_ENDPOINT: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
+      CLINIC_PHONE: '91XXXXXXXXXX',
+      WHATSAPP_PHONE: '91XXXXXXXXXX',
+      DOCTOR_NAME: 'Dr. A. N. Sharma',
+      DOCTOR_PHONE: '91XXXXXXXXXX',
+      CLINIC_NAME: 'AN Clinic',
+      CLINIC_ADDRESS: 'Main Road, Your City',
+      MAP_URL: 'https://maps.google.com/?q=clinic',
+      PUBLIC_NOTICE: 'We collect your chats and AI replies for safety and quality review.',
+      CURRENCY: '₹'
+    };
+  </script>
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="pattern"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="assets/logo.png" alt="AN logo" />
+      </div>
+      <div>
+        <div class="brand-title">AN Clinic AI</div>
+        <div class="brand-sub" data-i18n="brand_sub">Doctor support, appointment help, order management</div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <a class="quick-call" id="doctorCall" href="tel:+919999999999"><i class="fa-solid fa-phone"></i><span data-i18n="call_doctor">Call Doctor</span></a>
+      <button class="icon-btn" id="drawerBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </header>
+
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head">
+      <div class="drawer-logo">AN Clinic AI</div>
+      <p data-i18n="drawer_sub">A modern clinic assistant with routing, logging, and safety checks.</p>
+    </div>
+
+    <nav class="drawer-nav">
+      <a href="#home" data-nav><i class="fa-solid fa-house"></i><span data-i18n="nav_home">Home</span></a>
+      <a href="#assistant" data-nav><i class="fa-solid fa-robot"></i><span data-i18n="nav_assistant">AI Assistant</span></a>
+      <a href="#appointment" data-nav><i class="fa-solid fa-calendar-check"></i><span data-i18n="nav_appointment">Appointment</span></a>
+      <a href="#healthcare" data-nav><i class="fa-solid fa-heart-pulse"></i><span data-i18n="nav_healthcare">Health Care</span></a>
+      <a href="#order" data-nav><i class="fa-solid fa-box-open"></i><span data-i18n="nav_order">Order</span></a>
+      <a href="#feedback" data-nav><i class="fa-solid fa-star"></i><span data-i18n="nav_feedback">Feedback</span></a>
+      <a href="#about-agent" data-nav><i class="fa-solid fa-circle-info"></i><span data-i18n="nav_about_agent">About our Agent</span></a>
+      <a href="#agent-feedback" data-nav><i class="fa-solid fa-comments"></i><span data-i18n="nav_agent_feedback">Agent Feedback</span></a>
+      <a href="#complaint" data-nav><i class="fa-solid fa-triangle-exclamation"></i><span data-i18n="nav_complaint">Complaint Against Agent</span></a>
+    </nav>
+
+    <div class="drawer-panels">
+      <div class="panel-block">
+        <div class="panel-title" data-i18n="language">Language</div>
+        <div class="segmented" id="langSwitch">
+          <button data-lang="en">English</button>
+          <button data-lang="hi">हिन्दी</button>
+          <button data-lang="sa">संस्कृतम्</button>
+          <button data-lang="ur">اردو</button>
+        </div>
+      </div>
+      <div class="panel-block">
+        <div class="panel-title" data-i18n="theme">Theme</div>
+        <div class="segmented" id="themeSwitch">
+          <button data-theme="dark"><i class="fa-solid fa-moon"></i> Dark</button>
+          <button data-theme="light"><i class="fa-solid fa-sun"></i> Light</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-note">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span data-i18n="notice">We collect your chats and AI replies for safety and quality review.</span>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <main class="shell" id="home">
+    <section class="hero card">
+      <div class="hero-copy">
+        <div class="eyebrow"><i class="fa-solid fa-sparkles"></i><span data-i18n="hero_eyebrow">Modern clinic assistant</span></div>
+        <h1 data-i18n="hero_title">Professional AI front desk for clinic workflows</h1>
+        <p data-i18n="hero_text">One page for guidance, appointments, health-care intake, non-medicine order placement, feedback, and complaint handling.</p>
+        <div class="hero-cta">
+          <a class="btn primary" href="#assistant"><i class="fa-solid fa-robot"></i><span data-i18n="btn_talk_ai">Talk to AI</span></a>
+          <a class="btn ghost" href="#appointment"><i class="fa-solid fa-calendar-plus"></i><span data-i18n="btn_book">Book appointment</span></a>
+        </div>
+        <div class="stats">
+          <div><strong>4</strong><span data-i18n="stat_lang">Languages</span></div>
+          <div><strong>1</strong><span data-i18n="stat_sheet">Sheets sync</span></div>
+          <div><strong>0</strong><span data-i18n="stat_medicine">Medicine orders</span></div>
+          <div><strong>24/7</strong><span data-i18n="stat_support">AI routing</span></div>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="art-frame">
+          <img src="assets/logo.png" alt="clinic logo" />
+        </div>
+        <div class="art-cards">
+          <div class="mini-card"><i class="fa-solid fa-phone-volume"></i><span data-i18n="doctor_phone">Doctor phone visible</span></div>
+          <div class="mini-card"><i class="fa-solid fa-note-sticky"></i><span data-i18n="route_ai">AI can open forms inside chat</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="notice card">
+      <i class="fa-solid fa-circle-info"></i>
+      <p data-i18n="top_notice">We collect your and AI chat for more security.</p>
+    </section>
+
+    <section class="two-col">
+      <section class="card assistant-panel" id="assistant">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker" data-i18n="assistant_kicker">AI assistant</div>
+            <h2 data-i18n="assistant_title">Ask about appointment, health, or order</h2>
+          </div>
+          <div class="agent-badge"><span class="pulse"></span><span data-i18n="agent_online">Agent thinking</span></div>
+        </div>
+        <div class="assistant-log" id="chatLog"></div>
+        <div class="quick-replies" id="quickReplies"></div>
+        <div class="assistant-input">
+          <input id="chatInput" type="text" data-i18n-placeholder="chat_placeholder" placeholder="Type your question here" />
+          <button class="btn primary" id="sendChat"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </section>
+
+      <aside class="card contact-panel">
+        <div class="section-head compact">
+          <div>
+            <div class="section-kicker" data-i18n="contact_kicker">Quick contact</div>
+            <h2 data-i18n="contact_title">Doctor and clinic access</h2>
+          </div>
+        </div>
+        <div class="contact-box">
+          <div><i class="fa-solid fa-user-doctor"></i></div>
+          <div>
+            <strong id="doctorName">Dr. A. N. Sharma</strong>
+            <p id="doctorRole">Orthopaedics</p>
+          </div>
+          <a class="btn small primary" id="callDoctorBtn" href="tel:+919999999999"><i class="fa-solid fa-phone"></i><span data-i18n="call">Call</span></a>
+        </div>
+        <div class="contact-box slim">
+          <div><i class="fa-brands fa-whatsapp"></i></div>
+          <div>
+            <strong data-i18n="whatsapp">WhatsApp</strong>
+            <p id="waText">Open chat</p>
+          </div>
+          <a class="btn small ghost" id="waBtn" href="#" target="_blank">Open</a>
+        </div>
+        <div class="contact-box slim">
+          <div><i class="fa-solid fa-location-dot"></i></div>
+          <div>
+            <strong data-i18n="clinic_address">Clinic address</strong>
+            <p id="clinicAddress">Main Road, Your City</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="card" id="appointment">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker" data-i18n="appointment_kicker">Appointment</div>
+          <h2 data-i18n="appointment_title">Load appointment form inside the AI page</h2>
+        </div>
+      </div>
+      <div class="form-grid">
+        <input id="apptName" type="text" data-i18n-placeholder="name" placeholder="Name" />
+        <input id="apptPhone" type="tel" maxlength="10" inputmode="numeric" data-i18n-placeholder="phone" placeholder="10-digit mobile" />
+        <input id="apptDate" type="date" />
+        <select id="apptType">
+          <option value="">Select doctor</option>
+          <option>Orthopaedics</option>
+          <option>Physiotherapy</option>
+          <option>General consult</option>
+        </select>
+        <textarea id="apptNote" rows="4" data-i18n-placeholder="appt_note" placeholder="Describe the issue"></textarea>
+      </div>
+      <input id="apptTrap" class="trap" type="text" autocomplete="off" tabindex="-1" />
+      <div class="actions-row">
+        <button class="btn primary" id="apptSubmit"><i class="fa-solid fa-calendar-check"></i><span data-i18n="submit_appt">Submit appointment</span></button>
+        <button class="btn ghost" data-open-ai="appointment"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="ask_ai_open">Ask AI to open it</span></button>
+      </div>
+      <div class="status" id="apptStatus"></div>
+    </section>
+
+    <section class="card gate-card" id="healthcare">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker" data-i18n="healthcare_kicker">Health care</div>
+          <h2 data-i18n="healthcare_title">Personal health Q&A only</h2>
+        </div>
+      </div>
+      <p class="muted" data-i18n="healthcare_intro">This area is for user health questions and supportive answers only. It does not show clinic ordering data.</p>
+      <div class="gate-form">
+        <input id="hcName" type="text" data-i18n-placeholder="name" placeholder="Name" />
+        <input id="hcPhone" type="tel" maxlength="10" inputmode="numeric" data-i18n-placeholder="phone" placeholder="10-digit mobile" />
+        <button class="btn primary" id="hcEnter"><i class="fa-solid fa-lock-open"></i><span data-i18n="enter_health">Enter health care</span></button>
+      </div>
+      <div class="health-space locked" id="healthSpace">
+        <div class="health-box">
+          <div class="health-head">
+            <strong data-i18n="health_chat">Health chat</strong>
+            <span class="pill" data-i18n="private_mode">Private mode</span>
+          </div>
+          <div class="assistant-log inner" id="healthLog"></div>
+          <div class="assistant-input">
+            <input id="healthInput" type="text" data-i18n-placeholder="health_placeholder" placeholder="Ask a health question" />
+            <button class="btn primary" id="sendHealth"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="order">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker" data-i18n="order_kicker">Order</div>
+          <h2 data-i18n="order_title">Non-medicine order system</h2>
+        </div>
+      </div>
+      <p class="muted" data-i18n="order_intro">Only belts, wheelchairs, supports, and similar items. No medicines.</p>
+      <div class="catalog" id="catalog"></div>
+      <div class="cart card-inner">
+        <div class="cart-head">
+          <strong data-i18n="cart">Cart</strong>
+          <span id="cartTotal">₹0</span>
+        </div>
+        <div id="cartItems" class="cart-items"></div>
+        <div class="form-grid order-form">
+          <input id="orderName" type="text" data-i18n-placeholder="name" placeholder="Name" />
+          <input id="orderPhone" type="tel" maxlength="10" inputmode="numeric" data-i18n-placeholder="phone" placeholder="10-digit mobile" />
+          <input id="orderAddress" type="text" data-i18n-placeholder="address" placeholder="Address" />
+          <select id="paymentMode">
+            <option value="">Payment mode</option>
+            <option value="online">Online</option>
+            <option value="offline">Offline</option>
+          </select>
+        </div>
+        <input id="orderTrap" class="trap" type="text" autocomplete="off" tabindex="-1" />
+        <div class="actions-row">
+          <button class="btn primary" id="placeOrder"><i class="fa-solid fa-basket-shopping"></i><span data-i18n="place_order">Place order</span></button>
+          <a class="btn ghost" id="payLink" href="#" target="_blank"><i class="fa-solid fa-credit-card"></i><span data-i18n="pay_now">Pay now</span></a>
+        </div>
+        <div class="status" id="orderStatus"></div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <section class="card" id="feedback">
+        <div class="section-head compact">
+          <div>
+            <div class="section-kicker" data-i18n="feedback_kicker">Feedback</div>
+            <h2 data-i18n="feedback_title">Patient feedback</h2>
+          </div>
+        </div>
+        <div class="feedback-list" id="feedbackList"></div>
+        <div class="feedback-form">
+          <input id="fbName" type="text" data-i18n-placeholder="name" placeholder="Name" />
+          <textarea id="fbText" rows="3" data-i18n-placeholder="feedback_text" placeholder="Write feedback"></textarea>
+          <button class="btn primary" id="sendFeedback"><i class="fa-solid fa-star"></i><span data-i18n="submit_feedback">Submit feedback</span></button>
+        </div>
+      </section>
+
+      <section class="card" id="about-agent">
+        <div class="section-head compact">
+          <div>
+            <div class="section-kicker" data-i18n="about_agent_kicker">About our Agent</div>
+            <h2 data-i18n="about_agent_title">Rules and behavior</h2>
+          </div>
+        </div>
+        <p class="muted" data-i18n="about_agent_text">This assistant routes users to forms, logs activity to Sheets, and keeps health, order, and feedback flows separate.</p>
+        <div class="bullets">
+          <div><i class="fa-solid fa-check"></i><span data-i18n="rule_1">Appointment opens inside page</span></div>
+          <div><i class="fa-solid fa-check"></i><span data-i18n="rule_2">Health area asks for name and phone first</span></div>
+          <div><i class="fa-solid fa-check"></i><span data-i18n="rule_3">Order section excludes medicines</span></div>
+          <div><i class="fa-solid fa-check"></i><span data-i18n="rule_4">Honeypot fields reduce spam</span></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="grid-2">
+      <section class="card" id="agent-feedback">
+        <div class="section-head compact"><div><div class="section-kicker" data-i18n="agent_feedback_kicker">Agent feedback</div><h2 data-i18n="agent_feedback_title">Rate the AI behavior</h2></div></div>
+        <div class="rating-row" id="ratingRow">
+          <button data-rate="1">★</button>
+          <button data-rate="2">★</button>
+          <button data-rate="3">★</button>
+          <button data-rate="4">★</button>
+          <button data-rate="5">★</button>
+        </div>
+        <textarea id="agentFeedbackText" rows="3" data-i18n-placeholder="agent_feedback_text" placeholder="What should the agent improve?"></textarea>
+        <button class="btn primary" id="sendAgentFeedback"><i class="fa-solid fa-paper-plane"></i><span data-i18n="submit_agent_feedback">Send agent feedback</span></button>
+        <div class="status" id="agentFeedbackStatus"></div>
+      </section>
+
+      <section class="card" id="complaint">
+        <div class="section-head compact"><div><div class="section-kicker" data-i18n="complaint_kicker">Complaint</div><h2 data-i18n="complaint_title">Complaint against agent</h2></div></div>
+        <p class="muted" data-i18n="complaint_text">Use this for wrong routing, repeated messages, or behavior issues.</p>
+        <textarea id="complaintText" rows="4" data-i18n-placeholder="complaint_placeholder" placeholder="Describe the complaint"></textarea>
+        <button class="btn danger" id="sendComplaint"><i class="fa-solid fa-bug"></i><span data-i18n="submit_complaint">Submit complaint</span></button>
+        <div class="status" id="complaintStatus"></div>
+      </section>
+    </section>
+  </main>
+
+  <a class="floating-call" id="floatingCall" href="tel:+919999999999"><i class="fa-solid fa-phone"></i></a>
+  <button class="floating-ai" id="aiOpen"><i class="fa-solid fa-robot"></i></button>
+
+  <div class="modal" id="healthModal">
+    <div class="modal-card">
+      <h3 data-i18n="health_gate_title">Health care access</h3>
+      <p data-i18n="health_gate_text">Enter your name and 10-digit phone number to continue.</p>
+      <button class="btn primary" id="closeHealthModal"><i class="fa-solid fa-check"></i><span data-i18n="continue">Continue</span></button>
+    </div>
+  </div>
+
+  <script src="lang.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
