@@ -1,197 +1,457 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="color-scheme" content="dark light" />
-  <title>AN Clinic AI Assistant</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0f172a"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="AN Clinic"/>
+  <meta name="description" content="AN Fractures & Physiotherapist – Book appointments, order medical aids, and get AI-powered health guidance."/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>AN Fractures & Physiotherapist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css"/>
+
   <script>
-    window.APP_CONFIG = {
-      SHEETS_ENDPOINT: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
-      CLINIC_PHONE: '91XXXXXXXXXX',
-      WHATSAPP_PHONE: '91XXXXXXXXXX',
-      DOCTOR_NAME: 'Dr. A. N. Sharma',
-      DOCTOR_PHONE: '91XXXXXXXXXX',
-      CLINIC_NAME: 'AN Clinic',
-      CLINIC_ADDRESS: 'Main Road, Your City',
-      MAP_URL: 'https://maps.google.com/?q=clinic',
-      PUBLIC_NOTICE: 'We collect your chats and AI replies for safety and quality review.',
-      CURRENCY: '₹'
+    /* ── CONFIG ── change these before deployment ── */
+    window.CFG = {
+      SHEETS_ENDPOINT : 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
+      CLINIC_PHONE    : '919999999999',
+      WHATSAPP_PHONE  : '919999999999',
+      DOCTOR_NAME     : 'Dr. A. N. Sharma',
+      DOCTOR_PHONE    : '919999999999',
+      CLINIC_NAME     : 'AN Fractures & Physiotherapist',
+      CLINIC_ADDRESS  : 'Main Road, Your City, UP',
+      MAP_EMBED       : 'https://maps.google.com/maps?q=AN+Clinic&output=embed',
+      MAP_URL         : 'https://maps.google.com/?q=AN+Clinic',
+      UPI_ID          : 'yourclinic@upi',        /* ← never shown in UI */
+      UPI_NAME        : 'AN Clinic',
+      CURRENCY        : '₹'
     };
   </script>
 </head>
-<body>
-  <div class="bg-glow"></div>
-  <div class="pattern"></div>
+<body class="an-body">
 
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark">
-        <img src="assets/logo.png" alt="AN logo" />
-      </div>
-      <div>
-        <div class="brand-title">AN Clinic AI</div>
-        <div class="brand-sub" data-i18n="brand_sub">Doctor support, appointment help, order management</div>
-      </div>
+<!-- ══════════════════════════════════════════════
+     NOTIFICATION BANNER
+══════════════════════════════════════════════ -->
+<div id="notifBanner" class="notif-banner hidden">
+  <i class="fa-solid fa-bell-ring"></i>
+  <span id="notifText">Welcome back!</span>
+  <button onclick="document.getElementById('notifBanner').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TOP BAR
+══════════════════════════════════════════════ -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">
+      <img src="assets/logo.png" alt="AN" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="logo-fallback" style="display:none">AN</div>
     </div>
-
-    <div class="top-actions">
-      <a class="quick-call" id="doctorCall" href="tel:+919999999999"><i class="fa-solid fa-phone"></i><span data-i18n="call_doctor">Call Doctor</span></a>
-      <button class="icon-btn" id="drawerBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+    <div>
+      <div class="brand-title">AN Clinic</div>
+      <div class="brand-sub">Fractures &amp; Physiotherapist</div>
     </div>
-  </header>
+  </div>
+  <div class="top-actions">
+    <a class="quick-call" href="tel:+919999999999" id="topCallBtn"><i class="fa-solid fa-phone"></i><span>Call</span></a>
+    <button class="icon-btn" id="drawerBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</header>
 
-  <aside class="drawer" id="drawer">
-    <div class="drawer-head">
-      <div class="drawer-logo">AN Clinic AI</div>
-      <p data-i18n="drawer_sub">A modern clinic assistant with routing, logging, and safety checks.</p>
-    </div>
+<!-- ══════════════════════════════════════════════
+     SIDE DRAWER
+══════════════════════════════════════════════ -->
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-logo">AN Clinic</div>
+    <p class="drawer-sub">Fractures &amp; Physiotherapist</p>
+  </div>
 
+  <!-- Drawer Tabs -->
+  <div class="drawer-tabs" id="drawerTabs">
+    <button class="dtab active" data-tab="menu"><i class="fa-solid fa-house"></i> Menu</button>
+    <button class="dtab" data-tab="shop"><i class="fa-solid fa-cart-shopping"></i> Shop</button>
+    <button class="dtab" data-tab="settings"><i class="fa-solid fa-sliders"></i> Settings</button>
+  </div>
+
+  <!-- TAB: MENU -->
+  <div class="dtab-content active" id="tab-menu">
     <nav class="drawer-nav">
-      <a href="#home" data-nav><i class="fa-solid fa-house"></i><span data-i18n="nav_home">Home</span></a>
-      <a href="#assistant" data-nav><i class="fa-solid fa-robot"></i><span data-i18n="nav_assistant">AI Assistant</span></a>
-      <a href="#appointment" data-nav><i class="fa-solid fa-calendar-check"></i><span data-i18n="nav_appointment">Appointment</span></a>
-      <a href="#healthcare" data-nav><i class="fa-solid fa-heart-pulse"></i><span data-i18n="nav_healthcare">Health Care</span></a>
-      <a href="#order" data-nav><i class="fa-solid fa-box-open"></i><span data-i18n="nav_order">Order</span></a>
-      <a href="#feedback" data-nav><i class="fa-solid fa-star"></i><span data-i18n="nav_feedback">Feedback</span></a>
-      <a href="#about-agent" data-nav><i class="fa-solid fa-circle-info"></i><span data-i18n="nav_about_agent">About our Agent</span></a>
-      <a href="#agent-feedback" data-nav><i class="fa-solid fa-comments"></i><span data-i18n="nav_agent_feedback">Agent Feedback</span></a>
-      <a href="#complaint" data-nav><i class="fa-solid fa-triangle-exclamation"></i><span data-i18n="nav_complaint">Complaint Against Agent</span></a>
+      <a href="#home"       class="dlink" data-close-drawer><i class="fa-solid fa-house"></i> Home</a>
+      <a href="#appointment" class="dlink" data-close-drawer><i class="fa-solid fa-calendar-check"></i> Appointment</a>
+      <a href="#healthcare"  class="dlink" data-close-drawer><i class="fa-solid fa-heart-pulse"></i> Health Care</a>
+      <a href="#gallery"     class="dlink" data-close-drawer><i class="fa-solid fa-images"></i> Gallery</a>
+      <a href="#map-section" class="dlink" data-close-drawer><i class="fa-solid fa-map-pin"></i> Location Map</a>
+      <button class="dlink" id="openFeedbackBtn"><i class="fa-solid fa-star"></i> Feedback</button>
+      <button class="dlink" id="openAgentFBBtn"><i class="fa-solid fa-comments"></i> Agent Feedback</button>
+      <button class="dlink" id="openComplaintBtn"><i class="fa-solid fa-triangle-exclamation"></i> Complaint</button>
+      <button class="dlink" id="openAboutBtn"><i class="fa-solid fa-circle-info"></i> About Agent</button>
     </nav>
+  </div>
 
-    <div class="drawer-panels">
-      <div class="panel-block">
-        <div class="panel-title" data-i18n="language">Language</div>
-        <div class="segmented" id="langSwitch">
-          <button data-lang="en">English</button>
-          <button data-lang="hi">हिन्दी</button>
-          <button data-lang="sa">संस्कृतम्</button>
-          <button data-lang="ur">اردو</button>
+  <!-- TAB: SHOP -->
+  <div class="dtab-content" id="tab-shop">
+    <div class="shop-drawer-inner">
+      <div class="shop-catalog" id="drawerCatalog"></div>
+      <div class="shop-cart-box">
+        <div class="cart-head-row">
+          <strong>Cart</strong>
+          <span id="drawerCartTotal">₹0</span>
         </div>
-      </div>
-      <div class="panel-block">
-        <div class="panel-title" data-i18n="theme">Theme</div>
-        <div class="segmented" id="themeSwitch">
-          <button data-theme="dark"><i class="fa-solid fa-moon"></i> Dark</button>
-          <button data-theme="light"><i class="fa-solid fa-sun"></i> Light</button>
+        <div id="drawerCartItems" class="cart-items-list"></div>
+        <div class="shop-form">
+          <input id="shopName"    type="text"  placeholder="Your Name *"/>
+          <input id="shopPhone"   type="tel"   maxlength="10" inputmode="numeric" placeholder="10-digit Mobile *"/>
+          <input id="shopAddress" type="text"  placeholder="Delivery Address *"/>
+          <select id="shopPay">
+            <option value="">Payment Mode *</option>
+            <option value="online">Online (UPI)</option>
+            <option value="offline">Cash on Delivery</option>
+          </select>
         </div>
+        <input class="trap" type="text" id="shopTrap" autocomplete="off" tabindex="-1"/>
+        <div class="shop-actions">
+          <button class="an-btn primary full" id="placeOrderBtn"><i class="fa-solid fa-basket-shopping"></i> Place Order</button>
+        </div>
+        <div id="shopStatus" class="status-msg"></div>
       </div>
     </div>
+  </div>
 
-    <div class="drawer-note">
+  <!-- TAB: SETTINGS -->
+  <div class="dtab-content" id="tab-settings">
+    <div class="settings-block">
+      <div class="settings-label">Language</div>
+      <div class="seg-group" id="langSwitch">
+        <button data-lang="en" class="active">English</button>
+        <button data-lang="hi">हिन्दी</button>
+      </div>
+    </div>
+    <div class="settings-block">
+      <div class="settings-label">Theme</div>
+      <div class="seg-group" id="themeSwitch">
+        <button data-theme-btn="dark" class="active"><i class="fa-solid fa-moon"></i> Dark</button>
+        <button data-theme-btn="light"><i class="fa-solid fa-sun"></i> Light</button>
+      </div>
+    </div>
+    <div class="settings-block">
+      <button class="an-btn ghost full" id="installPwaBtn" style="display:none"><i class="fa-solid fa-download"></i> Add to Home Screen</button>
+    </div>
+    <div class="drawer-notice">
       <i class="fa-solid fa-shield-halved"></i>
-      <span data-i18n="notice">We collect your chats and AI replies for safety and quality review.</span>
+      We collect AI chats for safety &amp; quality review.
     </div>
-  </aside>
-  <div class="overlay" id="overlay"></div>
+  </div>
+</aside>
+<div class="overlay" id="overlay"></div>
 
-  <main class="shell" id="home">
-    <section class="hero card">
-      <div class="hero-copy">
-        <div class="eyebrow"><i class="fa-solid fa-sparkles"></i><span data-i18n="hero_eyebrow">Modern clinic assistant</span></div>
-        <h1 data-i18n="hero_title">Professional AI front desk for clinic workflows</h1>
-        <p data-i18n="hero_text">One page for guidance, appointments, health-care intake, non-medicine order placement, feedback, and complaint handling.</p>
-        <div class="hero-cta">
-          <a class="btn primary" href="#assistant"><i class="fa-solid fa-robot"></i><span data-i18n="btn_talk_ai">Talk to AI</span></a>
-          <a class="btn ghost" href="#appointment"><i class="fa-solid fa-calendar-plus"></i><span data-i18n="btn_book">Book appointment</span></a>
-        </div>
-        <div class="stats">
-          <div><strong>4</strong><span data-i18n="stat_lang">Languages</span></div>
-          <div><strong>1</strong><span data-i18n="stat_sheet">Sheets sync</span></div>
-          <div><strong>0</strong><span data-i18n="stat_medicine">Medicine orders</span></div>
-          <div><strong>24/7</strong><span data-i18n="stat_support">AI routing</span></div>
-        </div>
+<!-- ══════════════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════════════ -->
+<main class="an-main" id="home">
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero-bg-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><i class="fa-solid fa-shield-heart"></i> Trusted Orthopaedic Care</div>
+      <h1 class="hero-title">AN Fractures &amp;<br>Physiotherapist</h1>
+      <p class="hero-desc">Book appointments, order orthopaedic aids, and get AI-powered health guidance — all in one place.</p>
+      <div class="hero-btns">
+        <a class="an-btn primary" href="#appointment"><i class="fa-solid fa-calendar-plus"></i> Book Appointment</a>
+        <a class="an-btn ghost" id="heroCallBtn" href="tel:+919999999999"><i class="fa-solid fa-phone"></i> Call Doctor</a>
       </div>
-      <div class="hero-art">
-        <div class="art-frame">
-          <img src="assets/logo.png" alt="clinic logo" />
-        </div>
-        <div class="art-cards">
-          <div class="mini-card"><i class="fa-solid fa-phone-volume"></i><span data-i18n="doctor_phone">Doctor phone visible</span></div>
-          <div class="mini-card"><i class="fa-solid fa-note-sticky"></i><span data-i18n="route_ai">AI can open forms inside chat</span></div>
-        </div>
+    </div>
+    <div class="hero-logo-wrap">
+      <div class="hero-logo-ring">
+        <img src="assets/logo.png" alt="AN Clinic" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=logo-fallback-lg>AN</div>'"/>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="notice card">
-      <i class="fa-solid fa-circle-info"></i>
-      <p data-i18n="top_notice">We collect your and AI chat for more security.</p>
-    </section>
+  <!-- QUICK ACTION ICONS (replaces old inline sections) -->
+  <section class="quick-icons">
+    <button class="qi-btn" id="qi-appt">
+      <div class="qi-icon"><i class="fa-solid fa-calendar-check"></i></div>
+      <span>Appointment</span>
+    </button>
+    <button class="qi-btn" id="qi-health">
+      <div class="qi-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+      <span>Health Care</span>
+    </button>
+    <button class="qi-btn" id="qi-shop">
+      <div class="qi-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+      <span>Shop / Order</span>
+    </button>
+    <button class="qi-btn" id="qi-feedback">
+      <div class="qi-icon"><i class="fa-solid fa-star"></i></div>
+      <span>Feedback</span>
+    </button>
+    <button class="qi-btn" id="qi-map">
+      <div class="qi-icon"><i class="fa-solid fa-map-pin"></i></div>
+      <span>Location</span>
+    </button>
+    <button class="qi-btn" id="qi-gallery">
+      <div class="qi-icon"><i class="fa-solid fa-images"></i></div>
+      <span>Gallery</span>
+    </button>
+  </section>
 
-    <section class="two-col">
-      <section class="card assistant-panel" id="assistant">
-        <div class="section-head">
-          <div>
-            <div class="section-kicker" data-i18n="assistant_kicker">AI assistant</div>
-            <h2 data-i18n="assistant_title">Ask about appointment, health, or order</h2>
-          </div>
-          <div class="agent-badge"><span class="pulse"></span><span data-i18n="agent_online">Agent thinking</span></div>
-        </div>
-        <div class="assistant-log" id="chatLog"></div>
-        <div class="quick-replies" id="quickReplies"></div>
-        <div class="assistant-input">
-          <input id="chatInput" type="text" data-i18n-placeholder="chat_placeholder" placeholder="Type your question here" />
-          <button class="btn primary" id="sendChat"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
-      </section>
-
-      <aside class="card contact-panel">
-        <div class="section-head compact">
-          <div>
-            <div class="section-kicker" data-i18n="contact_kicker">Quick contact</div>
-            <h2 data-i18n="contact_title">Doctor and clinic access</h2>
-          </div>
-        </div>
-        <div class="contact-box">
-          <div><i class="fa-solid fa-user-doctor"></i></div>
-          <div>
-            <strong id="doctorName">Dr. A. N. Sharma</strong>
-            <p id="doctorRole">Orthopaedics</p>
-          </div>
-          <a class="btn small primary" id="callDoctorBtn" href="tel:+919999999999"><i class="fa-solid fa-phone"></i><span data-i18n="call">Call</span></a>
-        </div>
-        <div class="contact-box slim">
-          <div><i class="fa-brands fa-whatsapp"></i></div>
-          <div>
-            <strong data-i18n="whatsapp">WhatsApp</strong>
-            <p id="waText">Open chat</p>
-          </div>
-          <a class="btn small ghost" id="waBtn" href="#" target="_blank">Open</a>
-        </div>
-        <div class="contact-box slim">
-          <div><i class="fa-solid fa-location-dot"></i></div>
-          <div>
-            <strong data-i18n="clinic_address">Clinic address</strong>
-            <p id="clinicAddress">Main Road, Your City</p>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <section class="card" id="appointment">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker" data-i18n="appointment_kicker">Appointment</div>
-          <h2 data-i18n="appointment_title">Load appointment form inside the AI page</h2>
-        </div>
-      </div>
+  <!-- APPOINTMENT SECTION (collapsible) -->
+  <section class="an-card collapsed-section" id="appointment">
+    <div class="section-hdr">
+      <div><div class="kicker">Appointment</div><h2>Book a Visit</h2></div>
+      <button class="collapse-btn" data-target="apptBody"><i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+    <div class="collapse-body" id="apptBody">
       <div class="form-grid">
-        <input id="apptName" type="text" data-i18n-placeholder="name" placeholder="Name" />
-        <input id="apptPhone" type="tel" maxlength="10" inputmode="numeric" data-i18n-placeholder="phone" placeholder="10-digit mobile" />
-        <input id="apptDate" type="date" />
+        <input id="apptName"  type="text"  placeholder="Full Name *"/>
+        <input id="apptPhone" type="tel"   maxlength="10" inputmode="numeric" placeholder="10-digit Mobile *"/>
+        <input id="apptDate"  type="date"/>
         <select id="apptType">
-          <option value="">Select doctor</option>
+          <option value="">Select Department</option>
           <option>Orthopaedics</option>
           <option>Physiotherapy</option>
-          <option>General consult</option>
+          <option>General Consult</option>
         </select>
-        <textarea id="apptNote" rows="4" data-i18n-placeholder="appt_note" placeholder="Describe the issue"></textarea>
+        <textarea id="apptNote" rows="3" placeholder="Describe your issue (optional)" style="grid-column:1/-1"></textarea>
       </div>
+      <input class="trap" type="text" id="apptTrap" autocomplete="off" tabindex="-1"/>
+      <div class="action-row">
+        <button class="an-btn primary" id="apptSubmit"><i class="fa-solid fa-calendar-check"></i> Submit</button>
+      </div>
+      <div id="apptStatus" class="status-msg"></div>
+    </div>
+  </section>
+
+  <!-- HEALTHCARE SECTION -->
+  <section class="an-card collapsed-section" id="healthcare">
+    <div class="section-hdr">
+      <div><div class="kicker">Health Care</div><h2>Personal Health Q&amp;A</h2></div>
+      <button class="collapse-btn" data-target="hcBody"><i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+    <div class="collapse-body" id="hcBody">
+      <div id="hcGate" class="gate-form">
+        <p class="muted-text">Enter your name and phone to access your private health chat.</p>
+        <div class="form-grid">
+          <input id="hcName"  type="text" placeholder="Full Name *"/>
+          <input id="hcPhone" type="tel"  maxlength="10" inputmode="numeric" placeholder="10-digit Mobile *"/>
+        </div>
+        <button class="an-btn primary" id="hcEnterBtn"><i class="fa-solid fa-lock-open"></i> Enter Health Care</button>
+      </div>
+      <div id="hcChat" class="hc-chat hidden">
+        <div class="hc-chat-head">
+          <span class="pill">Private Mode</span>
+          <span id="hcUserLabel"></span>
+        </div>
+        <div class="chat-log" id="healthLog"></div>
+        <div class="chat-input-row">
+          <input id="healthInput" type="text" placeholder="Ask a health question…"/>
+          <button class="an-btn primary icon-only" id="sendHealth"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="an-card" id="gallery">
+    <div class="section-hdr">
+      <div><div class="kicker">Gallery</div><h2>Clinic Photos</h2></div>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Filled by JS – uses the logo as placeholder if no real photos exist -->
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="an-card" id="map-section">
+    <div class="section-hdr">
+      <div><div class="kicker">Location</div><h2>Find Us</h2></div>
+    </div>
+    <div class="map-wrap">
+      <iframe id="clinicMap" src="" width="100%" height="300" style="border:0;border-radius:12px" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <a class="an-btn ghost mt" id="mapOpenBtn" href="#" target="_blank"><i class="fa-solid fa-map"></i> Open in Google Maps</a>
+  </section>
+
+  <!-- CONTACT STRIP -->
+  <section class="contact-strip">
+    <a class="contact-card" id="callCard" href="tel:+919999999999">
+      <i class="fa-solid fa-phone"></i>
+      <div><strong>Call Doctor</strong><span>Tap to dial</span></div>
+    </a>
+    <a class="contact-card" id="waCard" href="#" target="_blank">
+      <i class="fa-brands fa-whatsapp"></i>
+      <div><strong>WhatsApp</strong><span>Open chat</span></div>
+    </a>
+    <div class="contact-card">
+      <i class="fa-solid fa-location-dot"></i>
+      <div><strong>Address</strong><span id="addrSpan">Main Road, Your City, UP</span></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════════════════════════════════════
+     AI FLOATING BUTTON
+══════════════════════════════════════════════ -->
+<button class="ai-fab" id="aiFab" aria-label="Open AI Assistant">
+  <div class="ai-fab-inner">
+    <i class="fa-solid fa-robot"></i>
+  </div>
+  <div class="ai-fab-ping"></div>
+</button>
+
+<!-- ══════════════════════════════════════════════
+     AI PANEL (floater right-side)
+══════════════════════════════════════════════ -->
+<div class="ai-panel" id="aiPanel">
+  <!-- Jarvis Intro Overlay -->
+  <div class="jarvis-intro" id="jarvisIntro">
+    <div class="jarvis-face">
+      <div class="jarvis-ring r1"></div>
+      <div class="jarvis-ring r2"></div>
+      <div class="jarvis-ring r3"></div>
+      <div class="jarvis-core">
+        <i class="fa-solid fa-brain"></i>
+      </div>
+    </div>
+    <div class="jarvis-name">AN · AI</div>
+    <div class="jarvis-sub">Initializing assistant…</div>
+  </div>
+
+  <!-- AI Chat -->
+  <div class="ai-chat-wrap hidden" id="aiChatWrap">
+    <div class="ai-panel-hdr">
+      <div class="ai-hdr-left">
+        <div class="ai-avatar-sm"><i class="fa-solid fa-robot"></i></div>
+        <div>
+          <div class="ai-hdr-name">AN Assistant</div>
+          <div class="ai-hdr-status"><span class="pulse-dot"></span> Online</div>
+        </div>
+      </div>
+      <div class="ai-hdr-actions">
+        <button class="icon-btn sm" id="clearChatBtn" title="Clear chat"><i class="fa-solid fa-broom"></i></button>
+        <button class="icon-btn sm" id="closeAiBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+    <div class="ai-notice-bar">
+      <i class="fa-solid fa-shield-halved"></i> Chats logged for safety. No medicines advised.
+    </div>
+    <div class="chat-log" id="aiChatLog"></div>
+    <div class="quick-chips" id="aiChips"></div>
+    <div class="ai-input-row">
+      <input id="aiInput" type="text" placeholder="Ask about appointment, orders, health…"/>
+      <button class="an-btn primary icon-only" id="aiSend"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════ -->
+
+<!-- FEEDBACK MODAL -->
+<div class="an-modal" id="feedbackModal">
+  <div class="modal-card">
+    <div class="modal-hdr">
+      <h3>Patient Feedback</h3>
+      <button class="icon-btn" data-close-modal="feedbackModal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="feedbackList" class="feedback-list"></div>
+    <div class="form-grid">
+      <input id="fbName" type="text" placeholder="Your Name *"/>
+      <textarea id="fbText" rows="3" placeholder="Write your feedback…" style="grid-column:1/-1"></textarea>
+    </div>
+    <div class="action-row mt">
+      <button class="an-btn primary" id="sendFeedback"><i class="fa-solid fa-star"></i> Submit Feedback</button>
+    </div>
+    <div id="fbStatus" class="status-msg"></div>
+  </div>
+</div>
+
+<!-- AGENT FEEDBACK MODAL -->
+<div class="an-modal" id="agentFBModal">
+  <div class="modal-card">
+    <div class="modal-hdr">
+      <h3>Rate the AI Agent</h3>
+      <button class="icon-btn" data-close-modal="agentFBModal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="star-row" id="starRow">
+      <button data-rate="1">★</button><button data-rate="2">★</button>
+      <button data-rate="3">★</button><button data-rate="4">★</button>
+      <button data-rate="5">★</button>
+    </div>
+    <textarea id="agentFBText" rows="3" placeholder="What should the agent improve?"></textarea>
+    <div class="action-row mt">
+      <button class="an-btn primary" id="sendAgentFB"><i class="fa-solid fa-paper-plane"></i> Send Feedback</button>
+    </div>
+    <div id="agentFBStatus" class="status-msg"></div>
+  </div>
+</div>
+
+<!-- COMPLAINT MODAL -->
+<div class="an-modal" id="complaintModal">
+  <div class="modal-card">
+    <div class="modal-hdr">
+      <h3>Complaint Against Agent</h3>
+      <button class="icon-btn" data-close-modal="complaintModal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <p class="muted-text">Wrong routing, repeated messages, or behavior issues.</p>
+    <textarea id="complaintText" rows="4" placeholder="Describe your complaint…"></textarea>
+    <div class="action-row mt">
+      <button class="an-btn danger" id="sendComplaint"><i class="fa-solid fa-bug"></i> Submit Complaint</button>
+    </div>
+    <div id="complaintStatus" class="status-msg"></div>
+  </div>
+</div>
+
+<!-- ABOUT AGENT MODAL -->
+<div class="an-modal" id="aboutModal">
+  <div class="modal-card">
+    <div class="modal-hdr">
+      <h3>About AN AI Agent</h3>
+      <button class="icon-btn" data-close-modal="aboutModal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <p class="muted-text">AN Assistant is a rule-based clinical front-desk AI.</p>
+    <div class="about-bullets">
+      <div><i class="fa-solid fa-check"></i> Appointments booked on this page only</div>
+      <div><i class="fa-solid fa-check"></i> Health chat requires name + phone gate</div>
+      <div><i class="fa-solid fa-check"></i> Orders exclude all medicines</div>
+      <div><i class="fa-solid fa-check"></i> Honeypot fields block spam bots</div>
+      <div><i class="fa-solid fa-check"></i> Chat history saved locally on your device</div>
+      <div><i class="fa-solid fa-check"></i> UPI payments stay inside this page</div>
+    </div>
+  </div>
+</div>
+
+<!-- UPI PAYMENT MODAL -->
+<div class="an-modal" id="upiModal">
+  <div class="modal-card">
+    <div class="modal-hdr">
+      <h3>Pay via UPI</h3>
+      <button class="icon-btn" data-close-modal="upiModal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="upi-body">
+      <div class="upi-amount-display" id="upiAmountDisplay">₹0</div>
+      <div class="upi-note" id="upiNoteDisplay">Order payment</div>
+      <div class="upi-qr" id="upiQrWrap">
+        <!-- QR rendered by JS -->
+        <div class="upi-qr-placeholder"><i class="fa-solid fa-qrcode"></i><span>QR loads here</span></div>
+      </div>
+      <p class="muted-text center">Scan with any UPI app or tap button below</p>
+      <a class="an-btn primary full" id="upiDeepLink" href="#">
+        <i class="fa-solid fa-mobile-screen-button"></i> Pay with UPI App
+      </a>
+      <button class="an-btn ghost full mt" id="upiDoneBtn">
+        <i class="fa-solid fa-check-circle"></i> I've Paid — Confirm Order      </div>
       <input id="apptTrap" class="trap" type="text" autocomplete="off" tabindex="-1" />
       <div class="actions-row">
         <button class="btn primary" id="apptSubmit"><i class="fa-solid fa-calendar-check"></i><span data-i18n="submit_appt">Submit appointment</span></button>
