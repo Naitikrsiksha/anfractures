@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - AN Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .page-header { display: flex; align-items: center; gap: 15px; padding: 20px; border-bottom: 1px solid var(--border-color); }
+        .back-btn { color: var(--text-white); font-size: 20px; text-decoration: none; }
+        .profile-header { text-align: center; padding: 30px 20px; }
+        .profile-avatar { width: 80px; height: 80px; background-color: var(--primary-blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 15px; }
+        .profile-name { font-size: 20px; margin-bottom: 5px; }
+        .profile-phone { color: var(--text-gray); font-size: 14px; }
+        
+        .profile-section { padding: 20px; border-top: 1px solid var(--border-color); }
+        .section-title { font-size: 16px; margin-bottom: 15px; color: var(--primary-blue); }
+        .history-card { background-color: var(--bg-card); border: 1px solid var(--border-color); padding: 15px; border-radius: 10px; margin-bottom: 10px; }
+        .history-card h4 { font-size: 14px; margin-bottom: 5px; }
+        .history-card p { font-size: 12px; color: var(--text-gray); }
+        
+        .logout-btn { width: 100%; background: transparent; border: 1px solid #EF4444; color: #EF4444; padding: 12px; border-radius: 8px; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <a href="../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="logo-circle-small">AN</div>
+        <h2 style="font-size: 16px;">AN Clinic</h2>
+    </div>
+
+    <div class="profile-header">
+        <div class="profile-avatar"><i class="fa-regular fa-user"></i></div>
+        <h2 class="profile-name">Patient Profile</h2>
+        <p class="profile-phone">+91 - XXXXX XXXXX</p>
+    </div>
+
+    <div class="profile-section">
+        <h3 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</h3>
+        
+        <div class="history-card">
+            <h4><i class="fa-solid fa-check-circle" style="color:var(--green-badge);"></i> AI Health Chat</h4>
+            <p>Last checked: Today</p>
+        </div>
+        
+        <div class="history-card">
+            <h4><i class="fa-regular fa-calendar"></i> No Upcoming Appointments</h4>
+            <p>Book a visit to see details here.</p>
+        </div>
+
+        <button class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+    </div>
+
+</body>
+</html>
+
