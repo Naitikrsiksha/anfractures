@@ -1,196 +1,146 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#0f172a"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="AN Clinic"/>
-  <meta name="description" content="AN Fractures & Physiotherapist – Book appointments, order medical aids, and get AI-powered health guidance."/>
-  <link rel="manifest" href="manifest.json"/>
-  <title>AN Fractures & Physiotherapist</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AN Clinic - Fractures & Physiotherapist</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css"> </head>
+<body>
 
-  <script>
-    /* ── CONFIG ── change these before deployment ── */
-    window.CFG = {
-      SHEETS_ENDPOINT : 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
-      CLINIC_PHONE    : '919999999999',
-      WHATSAPP_PHONE  : '919999999999',
-      DOCTOR_NAME     : 'Dr. A. N. Sharma',
-      DOCTOR_PHONE    : '919999999999',
-      CLINIC_NAME     : 'AN Fractures & Physiotherapist',
-      CLINIC_ADDRESS  : 'Main Road, Your City, UP',
-      MAP_EMBED       : 'https://maps.google.com/maps?q=AN+Clinic&output=embed',
-      MAP_URL         : 'https://maps.google.com/?q=AN+Clinic',
-      UPI_ID          : 'yourclinic@upi',        /* ← never shown in UI */
-      UPI_NAME        : 'AN Clinic',
-      CURRENCY        : '₹'
-    };
-  </script>
-</head>
-<body class="an-body">
-
-<!-- ══════════════════════════════════════════════
-     NOTIFICATION BANNER
-══════════════════════════════════════════════ -->
-<div id="notifBanner" class="notif-banner hidden">
-  <i class="fa-solid fa-bell-ring"></i>
-  <span id="notifText">Welcome back!</span>
-  <button onclick="document.getElementById('notifBanner').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     TOP BAR
-══════════════════════════════════════════════ -->
-<header class="topbar">
-  <div class="brand">
-    <div class="brand-mark">
-      <img src="assets/logo.png" alt="AN" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-      <div class="logo-fallback" style="display:none">AN</div>
+    <div id="announcement-banner" class="announcement-hidden">
+        <marquee id="announcement-text">Welcome to AN Clinic. Live updates will show here.</marquee>
     </div>
-    <div>
-      <div class="brand-title">AN Clinic</div>
-      <div class="brand-sub">Fractures &amp; Physiotherapist</div>
-    </div>
-  </div>
-  <div class="top-actions">
-    <a class="quick-call" href="tel:+919999999999" id="topCallBtn"><i class="fa-solid fa-phone"></i><span>Call</span></a>
-    <button class="icon-btn" id="drawerBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
-  </div>
-</header>
 
-<!-- ══════════════════════════════════════════════
-     SIDE DRAWER
-══════════════════════════════════════════════ -->
-<aside class="drawer" id="drawer">
-  <div class="drawer-head">
-    <div class="drawer-logo">AN Clinic</div>
-    <p class="drawer-sub">Fractures &amp; Physiotherapist</p>
-  </div>
-
-  <!-- Drawer Tabs -->
-  <div class="drawer-tabs" id="drawerTabs">
-    <button class="dtab active" data-tab="menu"><i class="fa-solid fa-house"></i> Menu</button>
-    <button class="dtab" data-tab="shop"><i class="fa-solid fa-cart-shopping"></i> Shop</button>
-    <button class="dtab" data-tab="settings"><i class="fa-solid fa-sliders"></i> Settings</button>
-  </div>
-
-  <!-- TAB: MENU -->
-  <div class="dtab-content active" id="tab-menu">
-    <nav class="drawer-nav">
-      <a href="#home"       class="dlink" data-close-drawer><i class="fa-solid fa-house"></i> Home</a>
-      <a href="#appointment" class="dlink" data-close-drawer><i class="fa-solid fa-calendar-check"></i> Appointment</a>
-      <a href="#healthcare"  class="dlink" data-close-drawer><i class="fa-solid fa-heart-pulse"></i> Health Care</a>
-      <a href="#gallery"     class="dlink" data-close-drawer><i class="fa-solid fa-images"></i> Gallery</a>
-      <a href="#map-section" class="dlink" data-close-drawer><i class="fa-solid fa-map-pin"></i> Location Map</a>
-      <button class="dlink" id="openFeedbackBtn"><i class="fa-solid fa-star"></i> Feedback</button>
-      <button class="dlink" id="openAgentFBBtn"><i class="fa-solid fa-comments"></i> Agent Feedback</button>
-      <button class="dlink" id="openComplaintBtn"><i class="fa-solid fa-triangle-exclamation"></i> Complaint</button>
-      <button class="dlink" id="openAboutBtn"><i class="fa-solid fa-circle-info"></i> About Agent</button>
-    </nav>
-  </div>
-
-  <!-- TAB: SHOP -->
-  <div class="dtab-content" id="tab-shop">
-    <div class="shop-drawer-inner">
-      <div class="shop-catalog" id="drawerCatalog"></div>
-      <div class="shop-cart-box">
-        <div class="cart-head-row">
-          <strong>Cart</strong>
-          <span id="drawerCartTotal">₹0</span>
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-circle">AN</div>
+            <div class="logo-text">
+                <h3>AN Clinic</h3>
+                <p>Fractures & Physiotherapist</p>
+            </div>
+            <i class="fa-solid fa-xmark" id="close-btn"></i>
         </div>
-        <div id="drawerCartItems" class="cart-items-list"></div>
-        <div class="shop-form">
-          <input id="shopName"    type="text"  placeholder="Your Name *"/>
-          <input id="shopPhone"   type="tel"   maxlength="10" inputmode="numeric" placeholder="10-digit Mobile *"/>
-          <input id="shopAddress" type="text"  placeholder="Delivery Address *"/>
-          <select id="shopPay">
-            <option value="">Payment Mode *</option>
-            <option value="online">Online (UPI)</option>
-            <option value="offline">Cash on Delivery</option>
-          </select>
+        
+        <ul class="nav-links">
+            <li class="active"><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="pages/appointment.html"><i class="fa-solid fa-calendar-check"></i> Appointment</a></li>
+            <li><a href="pages/healthcare.html"><i class="fa-solid fa-heart-pulse"></i> Health Care</a></li>
+            <li><a href="pages/gallery.html"><i class="fa-regular fa-image"></i> Gallery</a></li>
+            <li><a href="pages/location.html"><i class="fa-solid fa-location-dot"></i> Location Map</a></li>
+            <li><a href="pages/feedback.html"><i class="fa-regular fa-comment-dots"></i> Feedback</a></li>
+            <li><a href="pages/shop.html"><i class="fa-solid fa-bag-shopping"></i> Shop</a></li>
+            <li><a href="#"><i class="fa-regular fa-user"></i> Profile</a></li>
+        </ul>
+    </div>
+
+    <div id="sidebar-overlay"></div>
+
+    <div id="main-content">
+        
+        <header>
+            <div class="menu-left">
+                <i class="fa-solid fa-bars" id="menu-btn"></i>
+                <div class="logo-circle-small">AN</div>
+                <h2 class="header-title">AN Clinic</h2>
+            </div>
+            <div class="header-right">
+                <div class="logo-circle-outline">AN</div>
+            </div>
+        </header>
+
+        <main class="home-container">
+            <div class="hero-section">
+                <span class="trust-badge">
+                    <i class="fa-solid fa-circle trust-dot"></i> Trusted Orthopaedic Care
+                </span>
+                <h1>AN Fractures &<br>Physiotherapist</h1>
+                <p class="hero-subtext">Book appointments, order orthopaedic aids, and get AI-powered health guidance — all in one place.</p>
+                
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="location.href='pages/appointment.html'">
+                        <i class="fa-regular fa-calendar"></i> Book Appointment
+                    </button>
+                    <button class="btn-outline">
+                        <i class="fa-solid fa-phone"></i> Call Doctor
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid-menu">
+                <div class="grid-item" onclick="location.href='pages/appointment.html'">
+                    <i class="fa-regular fa-calendar"></i>
+                    <p>Appointment</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/healthcare.html'">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <p>Health Care</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/shop.html'">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <p>Shop / Order</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/feedback.html'">
+                    <i class="fa-regular fa-comment-dots"></i>
+                    <p>Feedback</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/location.html'">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>Location</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/gallery.html'">
+                    <i class="fa-regular fa-image"></i>
+                    <p>Gallery</p>
+                </div>
+            </div>
+        </main>
+
+        <div class="floating-ai-btn" id="open-ai-chat">
+            <i class="fa-solid fa-robot"></i>
         </div>
-        <input class="trap" type="text" id="shopTrap" autocomplete="off" tabindex="-1"/>
-        <div class="shop-actions">
-          <button class="an-btn primary full" id="placeOrderBtn"><i class="fa-solid fa-basket-shopping"></i> Place Order</button>
+    </div>
+
+    <div id="chat-wrapper" class="chat-wrapper">
+        <div class="chat-header">
+            <i class="fa-solid fa-arrow-left" id="close-chat-btn"></i>
+            <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div class="chat-title">
+                <h3>AN Health Assistant</h3>
+                <p>Active now</p>
+            </div>
         </div>
-        <div id="shopStatus" class="status-msg"></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- TAB: SETTINGS -->
-  <div class="dtab-content" id="tab-settings">
-    <div class="settings-block">
-      <div class="settings-label">Language</div>
-      <div class="seg-group" id="langSwitch">
-        <button data-lang="en" class="active">English</button>
-        <button data-lang="hi">हिन्दी</button>
-      </div>
-    </div>
-    <div class="settings-block">
-      <div class="settings-label">Theme</div>
-      <div class="seg-group" id="themeSwitch">
-        <button data-theme-btn="dark" class="active"><i class="fa-solid fa-moon"></i> Dark</button>
-        <button data-theme-btn="light"><i class="fa-solid fa-sun"></i> Light</button>
-      </div>
-    </div>
-    <div class="settings-block">
-      <button class="an-btn ghost full" id="installPwaBtn" style="display:none"><i class="fa-solid fa-download"></i> Add to Home Screen</button>
-    </div>
-    <div class="drawer-notice">
-      <i class="fa-solid fa-shield-halved"></i>
-      We collect AI chats for safety &amp; quality review.
-    </div>
-  </div>
-</aside>
-<div class="overlay" id="overlay"></div>
+        <div id="chat-intro" class="chat-intro-screen">
+            <div class="big-ai-avatar"><i class="fa-solid fa-robot"></i></div>
+            <h2>AN Health AI</h2>
+            <p>Your personal health assistant. Please introduce yourself to start chatting.</p>
+            <div class="intro-form">
+                <label>Your Name</label>
+                <input type="text" id="chat-user-name" placeholder="Enter your name">
+                <label>Phone Number</label>
+                <input type="tel" id="chat-user-phone" placeholder="10-digit phone number">
+                <button id="start-chat-btn" class="btn-start-chat">Start Chatting</button>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════
-     MAIN CONTENT
-══════════════════════════════════════════════ -->
-<main class="an-main" id="home">
+        <div id="chat-messages" class="chat-messages-container" style="display: none;">
+            </div>
 
-  <!-- HERO -->
-  <section class="hero-section">
-    <div class="hero-bg-glow"></div>
-    <div class="hero-content">
-      <div class="hero-badge"><i class="fa-solid fa-shield-heart"></i> Trusted Orthopaedic Care</div>
-      <h1 class="hero-title">AN Fractures &amp;<br>Physiotherapist</h1>
-      <p class="hero-desc">Book appointments, order orthopaedic aids, and get AI-powered health guidance — all in one place.</p>
-      <div class="hero-btns">
-        <a class="an-btn primary" href="#appointment"><i class="fa-solid fa-calendar-plus"></i> Book Appointment</a>
-        <a class="an-btn ghost" id="heroCallBtn" href="tel:+919999999999"><i class="fa-solid fa-phone"></i> Call Doctor</a>
-      </div>
+        <div id="chat-input-area" class="chat-input-container" style="display: none;">
+            <input type="text" id="chat-msg-input" placeholder="Ask a health question...">
+            <button id="send-msg-btn" class="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
     </div>
-    <div class="hero-logo-wrap">
-      <div class="hero-logo-ring">
-        <img src="assets/logo.png" alt="AN Clinic" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=logo-fallback-lg>AN</div>'"/>
-      </div>
-    </div>
-  </section>
 
-  <!-- QUICK ACTION ICONS (replaces old inline sections) -->
-  <section class="quick-icons">
-    <button class="qi-btn" id="qi-appt">
-      <div class="qi-icon"><i class="fa-solid fa-calendar-check"></i></div>
-      <span>Appointment</span>
-    </button>
-    <button class="qi-btn" id="qi-health">
-      <div class="qi-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-      <span>Health Care</span>
-    </button>
-    <button class="qi-btn" id="qi-shop">
-      <div class="qi-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-      <span>Shop / Order</span>
-    </button>
-    <button class="qi-btn" id="qi-feedback">
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/forms.js"></script>
+</body>
+</html>
       <div class="qi-icon"><i class="fa-solid fa-star"></i></div>
       <span>Feedback</span>
     </button>
