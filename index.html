@@ -6,9 +6,22 @@
     <title>AN Clinic - Fractures & Physiotherapist</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/chat.css"> </head>
+    <link rel="stylesheet" href="css/chat.css">
+    
+    <style>
+        .lang-dropdown {
+            background-color: var(--bg-card);
+            color: var(--text-white);
+            border: 1px solid var(--border-color);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+            margin-right: 10px;
+        }
+    </style>
+</head>
 <body>
 
     <div id="announcement-banner" class="announcement-hidden">
@@ -33,7 +46,7 @@
             <li><a href="pages/location.html"><i class="fa-solid fa-location-dot"></i> Location Map</a></li>
             <li><a href="pages/feedback.html"><i class="fa-regular fa-comment-dots"></i> Feedback</a></li>
             <li><a href="pages/shop.html"><i class="fa-solid fa-bag-shopping"></i> Shop</a></li>
-            <li><a href="#"><i class="fa-regular fa-user"></i> Profile</a></li>
+            <li><a href="pages/profile.html"><i class="fa-regular fa-user"></i> Profile</a></li>
         </ul>
     </div>
 
@@ -47,7 +60,15 @@
                 <div class="logo-circle-small">AN</div>
                 <h2 class="header-title">AN Clinic</h2>
             </div>
-            <div class="header-right">
+            <div class="header-right" style="display: flex; align-items: center;">
+                <select id="language-selector" class="lang-dropdown">
+                    <option value="hinglish">Hinglish</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="english">English</option>
+                    <option value="sanskrit">Sanskrit</option>
+                    <option value="urdu">Urdu</option>
+                    <option value="upLocal">UP Local</option>
+                </select>
                 <div class="logo-circle-outline">AN</div>
             </div>
         </header>
@@ -116,18 +137,22 @@
         <div id="chat-intro" class="chat-intro-screen">
             <div class="big-ai-avatar"><i class="fa-solid fa-robot"></i></div>
             <h2>AN Health AI</h2>
-            <p>Your personal health assistant. Please introduce yourself to start chatting.</p>
+            <p>Your personal health assistant.</p>
             <div class="intro-form">
+                
+                <input type="text" id="bot-honeypot" style="display:none;" tabindex="-1" autocomplete="off">
+                
                 <label>Your Name</label>
-                <input type="text" id="chat-user-name" placeholder="Enter your name">
+                <input type="text" id="chat-user-name" placeholder="Enter your name" required>
+                
                 <label>Phone Number</label>
-                <input type="tel" id="chat-user-phone" placeholder="10-digit phone number">
+                <input type="tel" id="chat-user-phone" placeholder="10-digit phone number" maxlength="10" minlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                
                 <button id="start-chat-btn" class="btn-start-chat">Start Chatting</button>
             </div>
         </div>
 
-        <div id="chat-messages" class="chat-messages-container" style="display: none;">
-            </div>
+        <div id="chat-messages" class="chat-messages-container" style="display: none;"></div>
 
         <div id="chat-input-area" class="chat-input-container" style="display: none;">
             <input type="text" id="chat-msg-input" placeholder="Ask a health question...">
@@ -141,56 +166,6 @@
     <script src="js/forms.js"></script>
 </body>
 </html>
-      <div class="qi-icon"><i class="fa-solid fa-star"></i></div>
-      <span>Feedback</span>
-    </button>
-    <button class="qi-btn" id="qi-map">
-      <div class="qi-icon"><i class="fa-solid fa-map-pin"></i></div>
-      <span>Location</span>
-    </button>
-    <button class="qi-btn" id="qi-gallery">
-      <div class="qi-icon"><i class="fa-solid fa-images"></i></div>
-      <span>Gallery</span>
-    </button>
-  </section>
-
-  <!-- APPOINTMENT SECTION (collapsible) -->
-  <section class="an-card collapsed-section" id="appointment">
-    <div class="section-hdr">
-      <div><div class="kicker">Appointment</div><h2>Book a Visit</h2></div>
-      <button class="collapse-btn" data-target="apptBody"><i class="fa-solid fa-chevron-down"></i></button>
-    </div>
-    <div class="collapse-body" id="apptBody">
-      <div class="form-grid">
-        <input id="apptName"  type="text"  placeholder="Full Name *"/>
-        <input id="apptPhone" type="tel"   maxlength="10" inputmode="numeric" placeholder="10-digit Mobile *"/>
-        <input id="apptDate"  type="date"/>
-        <select id="apptType">
-          <option value="">Select Department</option>
-          <option>Orthopaedics</option>
-          <option>Physiotherapy</option>
-          <option>General Consult</option>
-        </select>
-        <textarea id="apptNote" rows="3" placeholder="Describe your issue (optional)" style="grid-column:1/-1"></textarea>
-      </div>
-      <input class="trap" type="text" id="apptTrap" autocomplete="off" tabindex="-1"/>
-      <div class="action-row">
-        <button class="an-btn primary" id="apptSubmit"><i class="fa-solid fa-calendar-check"></i> Submit</button>
-      </div>
-      <div id="apptStatus" class="status-msg"></div>
-    </div>
-  </section>
-
-  <!-- HEALTHCARE SECTION -->
-  <section class="an-card collapsed-section" id="healthcare">
-    <div class="section-hdr">
-      <div><div class="kicker">Health Care</div><h2>Personal Health Q&amp;A</h2></div>
-      <button class="collapse-btn" data-target="hcBody"><i class="fa-solid fa-chevron-down"></i></button>
-    </div>
-    <div class="collapse-body" id="hcBody">
-      <div id="hcGate" class="gate-form">
-        <p class="muted-text">Enter your name and phone to access your private health chat.</p>
-        <div class="form-grid">
           <input id="hcName"  type="text" placeholder="Full Name *"/>
           <input id="hcPhone" type="tel"  maxlength="10" inputmode="numeric" placeholder="10-digit Mobile *"/>
         </div>
