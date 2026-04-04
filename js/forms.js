@@ -1,49 +1,53 @@
-// ==========================================
-// GOOGLE SHEETS INTEGRATION (forms.js)
-// ==========================================
-
-// Yahan apna Google Apps Script ka Web App URL daalein (Double quotes ke andar)
 const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL_HERE";
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. Appointment Form ko intercept karna
+    // 1. Appointment Form
     const apptForm = document.getElementById('appointment-form');
     if (apptForm) {
         apptForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            const fields = apptForm.querySelectorAll('.form-control');
+            
+            // Validate Phone
+            const phoneVal = fields[1].value.trim();
+            if (phoneVal.length !== 10 || isNaN(phoneVal)) {
+                alert("Please enter exactly 10 digits for Phone Number.");
+                return;
+            }
+
             const btn = apptForm.querySelector('.btn-submit');
             const oldText = btn.innerText;
             btn.innerText = "Booking... Please wait";
 
-            // Form ke saare fields order me nikalna
-            const fields = apptForm.querySelectorAll('.form-control');
             const data = new FormData();
             data.append("FormType", "Appointment");
             data.append("Name", fields[0].value);
-            data.append("Phone", fields[1].value);
+            data.append("Phone", phoneVal);
             data.append("Age", fields[3].value);
-            data.append("Gender", fields[4].value);
             data.append("Doctor", fields[5].value);
-            data.append("Reason", fields[6].value);
-            data.append("Date", fields[7].value);
-            data.append("TimeSlot", fields[8].value);
-
+            
+            if(window.logActivity) window.logActivity("Booked Appointment with " + fields[5].value);
             sendDataToSheet(data, btn, oldText, "Appointment Booked Successfully!");
             apptForm.reset();
         });
     }
 
-    // 2. Feedback Form ko intercept karna
+    // 2. Feedback Form
     const feedbackForm = document.getElementById('feedback-form');
     if (feedbackForm) {
         feedbackForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            // Rating check karna
             const activeStars = document.querySelectorAll('#star-rating .fa-solid.active').length;
             if (activeStars === 0) {
                 alert("Please select a star rating!");
+                return;
+            }
+            const fields = feedbackForm.querySelectorAll('.form-control');
+            
+            const phoneVal = fields[2].value.trim();
+            if (phoneVal.length !== 10 || isNaN(phoneVal)) {
+                alert("Please enter exactly 10 digits for Phone Number.");
                 return;
             }
 
@@ -51,79 +55,66 @@ document.addEventListener('DOMContentLoaded', () => {
             const oldText = btn.innerText;
             btn.innerText = "Submitting...";
 
-            const fields = feedbackForm.querySelectorAll('.form-control');
             const data = new FormData();
             data.append("FormType", "Feedback");
-            data.append("Type", fields[0].value);
             data.append("Name", fields[1].value);
-            data.append("Phone", fields[2].value);
+            data.append("Phone", phoneVal);
             data.append("Rating", activeStars + " Stars");
-            data.append("Message", fields[3].value);
 
-            sendDataToSheet(data, btn, oldText, "Thank you for your Feedback/Complaint!");
+            if(window.logActivity) window.logActivity("Submitted Feedback");
+            sendDataToSheet(data, btn, oldText, "Thank you for your Feedback!");
             feedbackForm.reset();
-            
-            // Reset stars
-            document.querySelectorAll('#star-rating i').forEach(s => {
-                s.classList.remove('active', 'fa-solid');
-                s.classList.add('fa-regular');
-            });
         });
     }
 });
 
-// 3. Shop Order ko Intercept karna (shop.js wale function ko thoda advance banana)
-// Hum purane placeOrder function ko overwrite kar rahe hain taaki Google sheet me data jaye
+// 3. Shop Order API (Strict Check)
 window.placeOrder = function() {
     const inputs = document.querySelectorAll('.order-modal-box .modal-input');
-    if (inputs[0].value.trim() === "" || inputs[1].value.trim() === "" || inputs[2].value.trim() === "") {
-        alert("Please fill your Name, Phone and Address!");
+    const phoneVal = inputs[1].value.trim();
+
+    // STRICT 10-DIGIT CHECK FOR SHOPPING
+    if (phoneVal.length !== 10 || isNaN(phoneVal)) {
+        alert("Payment Blocked: Valid 10-digit phone number is mandatory!");
+        return;
+    }
+    
+    if (inputs[0].value.trim() === "" || inputs[2].value.trim() === "") {
+        alert("Please fill your Name and Address!");
         return;
     }
 
-    // Getting price text
     const totalPriceText = document.getElementById('btn-price').innerText;
-
     const data = new FormData();
     data.append("FormType", "ShopOrder");
     data.append("Product", currentProductName);
-    data.append("Quantity", currentQuantity);
-    data.append("TotalPrice", totalPriceText);
-    data.append("Name", inputs[0].value);
-    data.append("Phone", inputs[1].value);
-    data.append("Address", inputs[2].value);
+    data.append("Phone", phoneVal);
+    
+    if(window.logActivity) window.logActivity("Ordered: " + currentProductName + " (" + totalPriceText + ")");
 
-    // Fetch call directly
-    fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: data, mode: 'no-cors' })
-        .then(() => {
-            // Hide Order Modal, Show Confirm Modal
-            document.getElementById('order-modal').style.display = 'none';
-            document.getElementById('confirm-product-name').innerText = currentProductName;
-            document.getElementById('confirm-modal').style.display = 'flex';
-            
-            // Clear inputs
-            inputs.forEach(input => input.value = "");
-        }).catch(err => {
-            alert("Error placing order. Please try again.");
-        });
+    // Hide Order Modal, Show Confirm Modal immediately for UX
+    document.getElementById('order-modal').style.display = 'none';
+    document.getElementById('confirm-product-name').innerText = currentProductName;
+    document.getElementById('confirm-modal').style.display = 'flex';
+    inputs.forEach(input => input.value = "");
+
+    // Background Fetch
+    fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: data, mode: 'no-cors' }).catch(err => console.log(err));
 };
 
-// Common function to send data
 function sendDataToSheet(formData, btnElement, oldText, successMsg) {
     if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL_HERE") {
-        alert("Google Sheet link is missing! But form structure works.");
+        alert("Success! (Note: Google Sheet URL is not set yet)");
         btnElement.innerText = oldText;
         return;
     }
-
-    // Google Apps Script requires mode: 'no-cors' for easy cross-origin posting
     fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData, mode: 'no-cors' })
         .then(() => {
             alert(successMsg);
             btnElement.innerText = oldText;
         })
         .catch(error => {
-            alert("Done! Form submitted."); // no-cors mostly throws opaque responses, so we show success
+            alert(successMsg);
             btnElement.innerText = oldText;
         });
 }
