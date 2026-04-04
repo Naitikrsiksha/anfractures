@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AN Clinic - Fractures & Physiotherapist</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css">
+    
+    <style>
+        .lang-dropdown {
+            background-color: var(--bg-card);
+            color: var(--text-white);
+            border: 1px solid var(--border-color);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="announcement-banner" class="announcement-hidden">
+        <marquee id="announcement-text">Welcome to AN Clinic. Live updates will show here.</marquee>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-circle">AN</div>
+            <div class="logo-text">
+                <h3>AN Clinic</h3>
+                <p>Fractures & Physiotherapist</p>
+            </div>
+            <i class="fa-solid fa-xmark" id="close-btn"></i>
+        </div>
+        
+        <ul class="nav-links">
+            <li class="active"><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="pages/appointment.html"><i class="fa-solid fa-calendar-check"></i> Appointment</a></li>
+            <li><a href="pages/healthcare.html"><i class="fa-solid fa-heart-pulse"></i> Health Care</a></li>
+            <li><a href="pages/gallery.html"><i class="fa-regular fa-image"></i> Gallery</a></li>
+            <li><a href="pages/location.html"><i class="fa-solid fa-location-dot"></i> Location Map</a></li>
+            <li><a href="pages/feedback.html"><i class="fa-regular fa-comment-dots"></i> Feedback</a></li>
+            <li><a href="pages/shop.html"><i class="fa-solid fa-bag-shopping"></i> Shop</a></li>
+            <li><a href="pages/profile.html"><i class="fa-regular fa-user"></i> Profile</a></li>
+        </ul>
+    </div>
+
+    <div id="sidebar-overlay"></div>
+
+    <div id="main-content">
+        
+        <header>
+            <div class="menu-left">
+                <i class="fa-solid fa-bars" id="menu-btn"></i>
+                <div class="logo-circle-small">AN</div>
+                <h2 class="header-title">AN Clinic</h2>
+            </div>
+            <div class="header-right" style="display: flex; align-items: center;">
+                <select id="language-selector" class="lang-dropdown">
+                    <option value="hinglish">Hinglish</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="english">English</option>
+                    <option value="sanskrit">Sanskrit</option>
+                    <option value="urdu">Urdu</option>
+                    <option value="upLocal">UP Local</option>
+                </select>
+                <div class="logo-circle-outline">AN</div>
+            </div>
+        </header>
+
+        <main class="home-container">
+            <div class="hero-section">
+                <span class="trust-badge">
+                    <i class="fa-solid fa-circle trust-dot"></i> Trusted Orthopaedic Care
+                </span>
+                <h1>AN Fractures &<br>Physiotherapist</h1>
+                <p class="hero-subtext">Book appointments, order orthopaedic aids, and get AI-powered health guidance — all in one place.</p>
+                
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="location.href='pages/appointment.html'">
+                        <i class="fa-regular fa-calendar"></i> Book Appointment
+                    </button>
+                    <button class="btn-outline">
+                        <i class="fa-solid fa-phone"></i> Call Doctor
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid-menu">
+                <div class="grid-item" onclick="location.href='pages/appointment.html'">
+                    <i class="fa-regular fa-calendar"></i>
+                    <p>Appointment</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/healthcare.html'">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <p>Health Care</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/shop.html'">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <p>Shop / Order</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/feedback.html'">
+                    <i class="fa-regular fa-comment-dots"></i>
+                    <p>Feedback</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/location.html'">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>Location</p>
+                </div>
+                <div class="grid-item" onclick="location.href='pages/gallery.html'">
+                    <i class="fa-regular fa-image"></i>
+                    <p>Gallery</p>
+                </div>
+            </div>
+        </main>
+
+        <div class="floating-ai-btn" id="open-ai-chat">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+    </div>
+
+    <div id="chat-wrapper" class="chat-wrapper">
+        <div class="chat-header">
+            <i class="fa-solid fa-arrow-left" id="close-chat-btn"></i>
+            <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div class="chat-title">
+                <h3>AN Health Assistant</h3>
+                <p>Active now</p>
+            </div>
+        </div>
+
+        <div id="chat-intro" class="chat-intro-screen">
+            <div class="big-ai-avatar"><i class="fa-solid fa-robot"></i></div>
+            <h2>AN Health AI</h2>
+            <p>Your personal health assistant.</p>
+            <div class="intro-form">
+                
+                <input type="text" id="bot-honeypot" style="display:none;" tabindex="-1" autocomplete="off">
+                
+                <label>Your Name</label>
+                <input type="text" id="chat-user-name" placeholder="Enter your name" required>
+                
+                <label>Phone Number</label>
+                <input type="tel" id="chat-user-phone" placeholder="10-digit phone number" maxlength="10" minlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                
+                <button id="start-chat-btn" class="btn-start-chat">Start Chatting</button>
+            </div>
+        </div>
+
+        <div id="chat-messages" class="chat-messages-container" style="display: none;"></div>
+
+        <div id="chat-input-area" class="chat-input-container" style="display: none;">
+            <input type="text" id="chat-msg-input" placeholder="Ask a health question...">
+            <button id="send-msg-btn" class="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/forms.js"></script>
+  
+</body>
+</html>
+
