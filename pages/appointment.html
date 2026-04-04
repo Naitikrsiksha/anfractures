@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - AN Clinic</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        /* Form specific styling for inner pages */
+        .page-header { display: flex; align-items: center; gap: 15px; padding: 20px; border-bottom: 1px solid var(--border-color); }
+        .back-btn { color: var(--text-white); font-size: 20px; text-decoration: none; }
+        .page-title h2 { font-size: 18px; display: flex; align-items: center; gap: 10px;}
+        .page-title p { font-size: 12px; color: var(--text-gray); margin-top: 4px; }
+        
+        .form-container { padding: 20px; }
+        .form-group { margin-bottom: 18px; }
+        .form-row { display: flex; gap: 15px; }
+        .form-row .form-group { flex: 1; }
+        
+        label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-white); }
+        .form-control { width: 100%; background-color: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 12px 15px; border-radius: 8px; font-size: 14px; }
+        .form-control:focus { outline: none; border-color: var(--primary-blue); }
+        textarea.form-control { resize: vertical; min-height: 100px; }
+        
+        .btn-submit { width: 100%; background-color: var(--primary-blue); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <a href="../index.html" class="back-btn"><i class="fa-solid fa-bars"></i></a>
+        <div class="logo-circle-small">AN</div>
+        <h2 style="font-size: 16px;">AN Clinic</h2>
+    </div>
+
+    <div class="page-title" style="padding: 20px 20px 0;">
+        <h2><i class="fa-regular fa-calendar-check"></i> Book Appointment</h2>
+        <p>Fill in the details to schedule your visit</p>
+    </div>
+
+    <div class="form-container">
+        <form id="appointment-form">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" class="form-control" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" class="form-control" placeholder="Enter 10-digit phone number" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Confirm Phone Number *</label>
+                <input type="tel" class="form-control" placeholder="Re-enter your phone number" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Age *</label>
+                    <input type="number" class="form-control" placeholder="Age" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <select class="form-control" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Select Doctor *</label>
+                <select class="form-control" required>
+                    <option value="" disabled selected>Choose a treatment type</option>
+                    <option value="Dr. Ahmad Nawaz">Ortho Specialist</option>
+                    <option value="Dr. Priya Sharma">Physiotherapist</option>
+                    <option value="Dr. Rajesh Kumar">Sports Medicine</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Reason for Visit *</label>
+                <textarea class="form-control" placeholder="Describe your symptoms or reason for the appointment..." required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Preferred Date *</label>
+                <input type="date" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Time Slot *</label>
+                <select class="form-control" required>
+                    <option value="" disabled selected>Select time slot</option>
+                    <option value="Morning">Morning (9 AM - 12 PM)</option>
+                    <option value="Afternoon">Afternoon (12 PM - 4 PM)</option>
+                    <option value="Evening">Evening (4 PM - 7 PM)</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn-submit">Book Appointment</button>
+        </form>
+    </div>
+
+    <div class="floating-ai-btn">
+        <i class="fa-solid fa-robot"></i>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/forms.js"></script>
+</body>
+</html>

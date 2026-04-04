@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - AN Clinic</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        .page-header { display: flex; align-items: center; gap: 15px; padding: 20px; border-bottom: 1px solid var(--border-color); }
+        .back-btn { color: var(--text-white); font-size: 20px; text-decoration: none; }
+        .page-title h2 { font-size: 18px; display: flex; align-items: center; gap: 10px;}
+        .page-title p { font-size: 12px; color: var(--text-gray); margin-top: 4px; }
+        
+        .form-container { padding: 20px; }
+        .form-group { margin-bottom: 18px; }
+        
+        label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-white); }
+        .form-control { width: 100%; background-color: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 12px 15px; border-radius: 8px; font-size: 14px; }
+        .form-control:focus { outline: none; border-color: var(--primary-blue); }
+        textarea.form-control { resize: vertical; min-height: 120px; }
+        
+        /* Star Rating Design */
+        .rating-stars { display: flex; gap: 10px; font-size: 24px; color: var(--text-gray); cursor: pointer; }
+        .rating-stars i.active { color: #FBBF24; }
+        
+        .btn-submit { width: 100%; background-color: var(--primary-blue); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <a href="../index.html" class="back-btn"><i class="fa-solid fa-bars"></i></a>
+        <div class="logo-circle-small">AN</div>
+        <h2 style="font-size: 16px;">AN Clinic</h2>
+    </div>
+
+    <div class="page-title" style="padding: 20px 20px 0;">
+        <h2><i class="fa-regular fa-comment-dots"></i> Feedback</h2>
+        <p>Share your experience or report a complaint</p>
+    </div>
+
+    <div class="form-container">
+        <form id="feedback-form">
+            <div class="form-group">
+                <label>Feedback Type *</label>
+                <select class="form-control" required>
+                    <option value="" disabled selected>Select type</option>
+                    <option value="General Feedback">General Feedback</option>
+                    <option value="Agent Feedback">Agent Feedback</option>
+                    <option value="Complaint">Complaint</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" class="form-control" placeholder="Enter your name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" class="form-control" placeholder="Your phone number" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Rating *</label>
+                <div class="rating-stars" id="star-rating">
+                    <i class="fa-regular fa-star" data-value="1"></i>
+                    <i class="fa-regular fa-star" data-value="2"></i>
+                    <i class="fa-regular fa-star" data-value="3"></i>
+                    <i class="fa-regular fa-star" data-value="4"></i>
+                    <i class="fa-regular fa-star" data-value="5"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Message *</label>
+                <textarea class="form-control" placeholder="Share your experience or complaint..." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit">Submit Feedback</button>
+        </form>
+    </div>
+
+    <div class="floating-ai-btn">
+        <i class="fa-solid fa-robot"></i>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

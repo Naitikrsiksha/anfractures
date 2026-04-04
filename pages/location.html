@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location - AN Clinic</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        .page-header { display: flex; align-items: center; gap: 15px; padding: 20px; border-bottom: 1px solid var(--border-color); }
+        .back-btn { color: var(--text-white); font-size: 20px; text-decoration: none; }
+        .page-title h2 { font-size: 18px; display: flex; align-items: center; gap: 10px;}
+        .page-title p { font-size: 12px; color: var(--text-gray); margin-top: 4px; }
+        
+        .location-container { padding: 20px; }
+        
+        /* Map Box Area */
+        .map-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 150px; /* Space to make it look like a map area */
+        }
+        .btn-map-small {
+            align-self: flex-start;
+            background-color: white;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-map-full {
+            width: 100%;
+            background-color: var(--bg-dark);
+            color: var(--primary-blue);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        /* Info Cards */
+        .info-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .info-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-blue);
+            font-size: 14px;
+        }
+        .info-icon.whatsapp { color: var(--green-badge); }
+        
+        .info-text h4 { font-size: 14px; margin-bottom: 4px; }
+        .info-text p { font-size: 12px; color: var(--text-gray); line-height: 1.4; }
+        .info-text.whatsapp p { color: var(--green-badge); }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <a href="../index.html" class="back-btn"><i class="fa-solid fa-bars"></i></a>
+        <div class="logo-circle-small">AN</div>
+        <h2 style="font-size: 16px;">AN Clinic</h2>
+    </div>
+
+    <div class="page-title" style="padding: 20px 20px 0;">
+        <h2><i class="fa-solid fa-location-dot"></i> Find Us</h2>
+        <p>AN Fractures & Physiotherapist, Jaunpur</p>
+    </div>
+
+    <div class="location-container">
+        <div class="map-box">
+            <a href="#" class="btn-map-small">Open in Maps <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <a href="#" class="btn-map-full"><i class="fa-solid fa-location-dot"></i> Open in Google Maps</a>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="info-text">
+                <h4>Address</h4>
+                <p>Main Road, Jaunpur City,<br>Uttar Pradesh - 222001</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
+            <div class="info-text">
+                <h4>Clinic Hours</h4>
+                <p>Mon-Sat: 9:00 AM - 7:00 PM<br>Sunday: 10:00 AM - 2:00 PM</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+            <div class="info-text">
+                <h4>Phone</h4>
+                <p style="color: var(--primary-blue);">+91 75000 00000</p>
+                <p>Tap to call</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></div>
+            <div class="info-text whatsapp">
+                <h4>WhatsApp</h4>
+                <p>+91 75000 00000</p>
+                <p style="color: var(--text-gray);">Tap to chat</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon"><i class="fa-regular fa-envelope"></i></div>
+            <div class="info-text">
+                <h4>Email</h4>
+                <p style="color: var(--primary-blue);">anfractures@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-ai-btn">
+        <i class="fa-solid fa-robot"></i>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

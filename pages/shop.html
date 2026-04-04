@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orthopaedic Shop - AN Clinic</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/shop.css">
+    
+    <style>
+        .page-header { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid var(--border-color); }
+        .back-btn { color: var(--text-white); font-size: 20px; text-decoration: none; }
+        
+        /* Warning Banner */
+        .shop-warning {
+            background-color: rgba(217, 119, 6, 0.15); /* Dark yellow/orange tint */
+            color: #FBBF24;
+            padding: 8px 15px;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        /* Shop Header & Search */
+        .shop-top-area { padding: 15px 20px 0; }
+        .shop-title { display: flex; align-items: center; gap: 10px; font-size: 18px; margin-bottom: 15px; }
+        .search-box {
+            display: flex; align-items: center; background-color: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px;
+        }
+        .search-box i { color: var(--text-gray); margin-right: 10px; font-size: 14px; }
+        .search-box input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 14px; }
+        
+        /* Confirmation Modal Specifics */
+        .confirm-icon { font-size: 40px; color: var(--green-badge); text-align: center; margin-bottom: 15px; }
+        .confirm-text { text-align: center; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+        .btn-full { width: 100%; background-color: var(--primary-blue); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="shop-warning">
+        <i class="fa-solid fa-triangle-exclamation"></i> Now Shopping Only Available in Jaunpur City or Village Areas
+    </div>
+
+    <div class="page-header">
+        <a href="../index.html" class="back-btn"><i class="fa-solid fa-bars"></i></a>
+        <div class="logo-circle-small">AN</div>
+        <h2 style="font-size: 16px;">AN Clinic</h2>
+    </div>
+
+    <div class="shop-top-area">
+        <div class="shop-title">
+            <i class="fa-solid fa-bag-shopping" style="color: var(--primary-blue);"></i>
+            <h3>Orthopaedic Shop</h3>
+        </div>
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search products...">
+        </div>
+    </div>
+
+    <div class="shop-categories">
+        <div class="category-badge active">All</div>
+        <div class="category-badge">Neck Support</div>
+        <div class="category-badge">Knee Support</div>
+        <div class="category-badge">Back Support</div>
+        <div class="category-badge">Elbow Support</div>
+        <div class="category-badge">Ankle Support</div>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card">
+            <div class="discount-badge">39% OFF</div>
+            <div class="product-img-placeholder"><i class="fa-solid fa-bag-shopping"></i></div>
+            <div class="product-title">Lumbar Belt / Back Support</div>
+            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> <span>(215)</span></div>
+            <div class="product-price">₹549 <strike>₹899</strike></div>
+            <div class="product-actions">
+                <button class="btn-buy" onclick="openOrderModal('Lumbar Belt / Back Support', 549)">Buy Now</button>
+                <button class="btn-add"><i class="fa-solid fa-cart-plus"></i> Add</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="discount-badge">43% OFF</div>
+            <div class="product-img-placeholder"><i class="fa-solid fa-bag-shopping"></i></div>
+            <div class="product-title">Knee Cap (Large)</div>
+            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> <span>(87)</span></div>
+            <div class="product-price">₹399 <strike>₹699</strike></div>
+            <div class="product-actions">
+                <button class="btn-buy" onclick="openOrderModal('Knee Cap (Large)', 399)">Buy Now</button>
+                <button class="btn-add"><i class="fa-solid fa-cart-plus"></i> Add</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="discount-badge">40% OFF</div>
+            <div class="product-img-placeholder"><i class="fa-solid fa-bag-shopping"></i></div>
+            <div class="product-title">Cervical Collar (Soft)</div>
+            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> <span>(128)</span></div>
+            <div class="product-price">₹299 <strike>₹499</strike></div>
+            <div class="product-actions">
+                <button class="btn-buy" onclick="openOrderModal('Cervical Collar (Soft)', 299)">Buy Now</button>
+                <button class="btn-add"><i class="fa-solid fa-cart-plus"></i> Add</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="discount-badge">38% OFF</div>
+            <div class="product-img-placeholder"><i class="fa-solid fa-bag-shopping"></i></div>
+            <div class="product-title">Ankle Support Brace</div>
+            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> <span>(93)</span></div>
+            <div class="product-price">₹279 <strike>₹449</strike></div>
+            <div class="product-actions">
+                <button class="btn-buy" onclick="openOrderModal('Ankle Support Brace', 279)">Buy Now</button>
+                <button class="btn-add"><i class="fa-solid fa-cart-plus"></i> Add</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-ai-btn">
+        <i class="fa-solid fa-robot"></i>
+    </div>
+
+    <div id="order-modal" class="order-modal-overlay">
+        <div class="order-modal-box">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeModals()"></i>
+            <h3 id="modal-product-name">Order: Product Name</h3>
+            <p style="font-size: 12px; color: var(--text-gray); margin-bottom: 5px;">Price</p>
+            <h2 id="modal-product-price" style="margin-bottom: 15px;">₹0</h2>
+            
+            <p style="font-size: 12px; color: var(--text-gray); margin-bottom: 5px;">Quantity</p>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button style="padding: 5px 15px; background: var(--bg-dark); border: 1px solid var(--border-color); color: white; border-radius: 4px;">-</button>
+                <span style="display: flex; align-items: center;">1</span>
+                <button style="padding: 5px 15px; background: var(--bg-dark); border: 1px solid var(--border-color); color: white; border-radius: 4px;">+</button>
+            </div>
+
+            <input type="text" class="modal-input" placeholder="Your Name">
+            <input type="tel" class="modal-input" placeholder="Phone Number">
+            <textarea class="modal-input" placeholder="Delivery Address (Jaunpur City/Village areas only)" style="resize: vertical; min-height: 60px;"></textarea>
+            
+            <button class="btn-full" onclick="placeOrder()">Place Order — <span id="btn-price">₹0</span></button>
+        </div>
+    </div>
+
+    <div id="confirm-modal" class="order-modal-overlay">
+        <div class="order-modal-box" style="text-align: center;">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeModals()"></i>
+            <h2 style="margin-bottom: 20px;">Order Confirmed!</h2>
+            <div class="confirm-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+            <p class="confirm-text">Your order for <strong id="confirm-product-name">Product</strong> has been placed. We'll call you to confirm.</p>
+            <button class="btn-full" onclick="closeModals()">Close</button>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/shop.js"></script>
+    
+    </body>
+</html>
