@@ -1,0 +1,258 @@
+/* AI Chat Fullscreen Wrapper */
+.chat-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-dark);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%); /* Hidden by default (Right side me chhipa hua) */
+    transition: transform 0.3s ease-in-out;
+}
+
+.chat-wrapper.active {
+    transform: translateX(0); /* Jab open hoga tab screen par aayega */
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--bg-dark);
+    border-bottom: 1px solid var(--border-color);
+}
+
+#close-chat-btn {
+    font-size: 18px;
+    margin-right: 15px;
+    color: var(--text-white);
+    cursor: pointer;
+}
+
+.chat-header .ai-avatar {
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-size: 16px;
+}
+
+.chat-title h3 {
+    font-size: 15px;
+    margin-bottom: 2px;
+}
+
+.chat-title p {
+    font-size: 11px;
+    color: var(--green-badge); /* Active now text in green */
+    font-weight: 500;
+}
+
+/* Chat Intro Screen (Name/Number Form) */
+.chat-intro-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    text-align: center;
+}
+
+.big-ai-avatar {
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.chat-intro-screen h2 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.chat-intro-screen p {
+    font-size: 13px;
+    color: var(--text-gray);
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+.intro-form {
+    width: 100%;
+    max-width: 300px;
+    text-align: left;
+}
+
+.intro-form label {
+    font-size: 12px;
+    color: var(--text-white);
+    margin-bottom: 5px;
+    display: block;
+    font-weight: 500;
+}
+
+.intro-form input {
+    width: 100%;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.intro-form input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.btn-start-chat {
+    width: 100%;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Chat Messages Area */
+.chat-messages-container {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: none; /* Intro ke baad show hoga */
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Message Bubbles */
+.chat-msg {
+    display: flex;
+    max-width: 85%;
+    align-items: flex-end;
+}
+
+.chat-msg.ai {
+    align-self: flex-start;
+}
+
+.chat-msg.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.msg-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.chat-msg.ai .msg-avatar {
+    background-color: var(--bg-card);
+    color: var(--primary-blue);
+    border: 1px solid var(--border-color);
+    margin-right: 10px;
+}
+
+.chat-msg.user .msg-avatar {
+    background-color: var(--primary-blue);
+    color: white;
+    margin-left: 10px;
+}
+
+.msg-text {
+    padding: 12px 16px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.chat-msg.ai .msg-text {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    color: var(--text-white);
+}
+
+.chat-msg.user .msg-text {
+    background-color: var(--primary-blue);
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+/* Inline Booking Form inside Chat (Jaisa image me tha) */
+.inline-chat-form {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Chat Input Area (Bottom) */
+.chat-input-container {
+    padding: 12px 20px;
+    background-color: var(--bg-dark);
+    border-top: 1px solid var(--border-color);
+    display: none; /* Intro ke baad show hoga */
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-input-container input {
+    flex: 1;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 20px; /* Pill shape */
+    font-size: 14px;
+}
+
+.chat-input-container input:focus {
+    outline: none;
+    border-color: var(--text-gray);
+}
+
+.send-btn {
+    background: transparent;
+    border: none;
+    color: var(--primary-blue);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
