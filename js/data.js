@@ -13,7 +13,6 @@ const siteData = {
 // ==========================================
 // 2. AI KNOWLEDGE BASE (Pure Hinglish)
 // ==========================================
-// Aap isme aage chal kar aur hazaron words aur patterns add kar sakte hain.
 const aiBrain = [
     {
         keywords: ["hello", "hi", "hey", "namaste", "pranam"],
@@ -25,33 +24,24 @@ const aiBrain = [
     },
     {
         keywords: ["appointment", "book", "number lagana", "dikhaana", "visit"],
-        response: "I can help you book an appointment! Please fill out the appointment form. <br><br> <a href='appointment.html' style='color:#2F6BFF; text-decoration:underline;'>Click here to fill appointment form</a>"
+        response: `I can help you book an appointment! Please click the button below to open the form. <br><br> 
+        <button onclick="window.location.href = window.location.pathname.includes('pages/') ? 'appointment.html' : 'pages/appointment.html';" 
+        style="width:100%; padding:10px; background:#2F6BFF; color:white; border:none; border-radius:8px; cursor:pointer; margin-top:10px; font-weight:bold;">
+        <i class="fa-solid fa-calendar-check"></i> Open Booking Form
+        </button>`
     },
     {
         keywords: ["fracture", "haddi", "tut gai", "broken bone", "crack"],
-        response: "Agar aapko lagta hai haddi tut gayi hai (fracture), toh kripya use hilayein nahi. Us hisse ko seedha rakhein aur support dein. Dard kam karne ke liye barf (ice) laga sakte hain. Please emergency me clinic visit karein ya Doctor Ahmad Nawaz se miliye."
+        response: "Agar aapko lagta hai haddi tut gayi hai (fracture), toh kripya use hilayein nahi. Us hisse ko seedha rakhein aur support dein. Dard kam karne ke liye barf (ice) laga sakte hain. Please emergency me clinic visit karein."
     },
     {
         keywords: ["dard", "pain", "dard ho raha", "swelling", "sujan"],
         response: "Dard aur sujan (swelling) ke liye aap affected area par ice pack laga sakte hain aur aaram karein. Agar dard bahut zyada hai, toh jald se jald appointment book karke doctor ko dikhayein."
     },
     {
-        keywords: ["physio", "physiotherapy", "exercise", "nas chadh", "kheenchav"],
-        response: "Physiotherapy se naso ka kheenchav, joint pain aur post-surgery recovery me bahut aaram milta hai. Hamari expert Dr. Priya Sharma physiotherapy ke liye available hain. Kya aap unse milna chahenge?"
-    },
-    {
-        keywords: ["timing", "time", "kab khulta", "baje", "open"],
-        response: "Hamara clinic Monday se Saturday subah 9:00 AM se sham 7:00 PM tak khula rehta hai. Sunday ko hum 10:00 AM se 2:00 PM tak dekhte hain."
-    },
-    {
-        keywords: ["address", "location", "kaha hai", "pata"],
-        response: "Hamara clinic Jaunpur me hai: Main Road, Jaunpur City, UP - 222001. Aap 'Location' page par jaa kar map bhi dekh sakte hain."
-    },
-    {
         keywords: ["shop", "belt", "buy", "order", "khareedna"],
-        response: "Aap hamari online shop se Knee Cap, Lumbar Belt, aur baaki orthopaedic saman order kar sakte hain. Delivery sirf Jaunpur city aur villages me available hai. Menu se 'Shop' par click karein."
+        response: "Aap hamari online shop se Knee Cap, Lumbar Belt, aur baaki orthopaedic saman order kar sakte hain. Delivery sirf Jaunpur city aur villages me available hai."
     }
 ];
 
-// Fallback message jab AI kuch samajh na paye
 const aiFallback = "Maaf karna, mujhe theek se samajh nahi aaya. Kya aap thoda aur detail me bata sakte hain? Ya phir aap sidhe 'Appointment' book kar sakte hain.";
